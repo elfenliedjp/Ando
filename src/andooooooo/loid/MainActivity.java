@@ -2,8 +2,13 @@ package andooooooo.loid;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends Activity{
 
@@ -11,6 +16,19 @@ public class MainActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		Button button = (Button)findViewById(R.id.intent_change_activity);
+		button.setText("てってれ〜");
+		
+		button.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// クリック時の挙動
+				Log.d("debug", "てってれ〜");
+				Toast.makeText(MainActivity.this, "2. ダイアログ閉じたよ" , Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 
 	@Override
