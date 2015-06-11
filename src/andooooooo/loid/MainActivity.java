@@ -1,6 +1,10 @@
 package andooooooo.loid;
 
+import ando.helper.DatabaseHelper;
 import android.app.Activity;
+import android.database.DatabaseUtils;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -20,13 +24,32 @@ public class MainActivity extends Activity{
 		Button button = (Button)findViewById(R.id.intent_change_activity);
 		button.setText("てってれ〜");
 		
+		String dbName = getString(R.string.db_name);
+		int dbVersion = Integer.parseInt(getString(R.string.db_ver));
+		
+		// DB構築
+		DatabaseHelper helper = new DatabaseHelper(this, dbName, null, dbVersion);
+		final SQLiteDatabase db = helper.getReadableDatabase();
+		
+		// クリック時
 		button.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
 				// クリック時の挙動
 				Log.d("debug", "てってれ〜");
-				Toast.makeText(MainActivity.this, "2. ダイアログ閉じたよ" , Toast.LENGTH_SHORT).show();
+				Toast.makeText(MainActivity.this, "てってれ〜を押したよ", Toast.LENGTH_SHORT).show();
+				db.beginTransaction();
+				long recodeCount = DatabaseUtils.queryNumEntries(db, "ando_test"); 
+				Log.d("DB", "recode : " + recodeCount);
+				Log.d("DB", "SQL : insert ando_test values(" + recodeCount + "子さん" + ")");
+				try {
+					SQLiteStatement statement = db.compileStatement("insert into ando_test(name) values(?);");
+					statement.bindString(1, recodeCount + "子さん");
+					statement.executeInsert();
+					db.setTransactionSuccessful();
+				} finally {
+					db.endTransaction();
+				}
 			}
 		});
 	}

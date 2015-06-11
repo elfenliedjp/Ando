@@ -4,5 +4,7 @@
     <string name="app_name">Andoooooloid</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="db_name">andodb</string>
+    <string name="db_ver">1</string>
 
 </resources>
